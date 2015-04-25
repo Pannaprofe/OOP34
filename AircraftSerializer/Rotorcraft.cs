@@ -8,6 +8,7 @@ namespace AircraftSerializer
 {
     public enum RotorcraftRotorType { Powered, Unpowered }
 
+    [Serializable()]
     public class Rotorcraft : Aerodyne
     {
         public override int MaxLoad { get; protected set; }

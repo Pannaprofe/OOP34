@@ -42,65 +42,73 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 13);
+            this.label1.Location = new System.Drawing.Point(17, 16);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(53, 13);
+            this.label1.Size = new System.Drawing.Size(68, 17);
             this.label1.TabIndex = 0;
             this.label1.Text = "Max load:";
             // 
             // maxLoadTextBox
             // 
-            this.maxLoadTextBox.Location = new System.Drawing.Point(88, 10);
+            this.maxLoadTextBox.Location = new System.Drawing.Point(117, 12);
+            this.maxLoadTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.maxLoadTextBox.Name = "maxLoadTextBox";
-            this.maxLoadTextBox.Size = new System.Drawing.Size(58, 20);
+            this.maxLoadTextBox.Size = new System.Drawing.Size(76, 22);
             this.maxLoadTextBox.TabIndex = 1;
             // 
             // massTextBox
             // 
-            this.massTextBox.Location = new System.Drawing.Point(88, 36);
+            this.massTextBox.Location = new System.Drawing.Point(117, 44);
+            this.massTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.massTextBox.Name = "massTextBox";
-            this.massTextBox.Size = new System.Drawing.Size(58, 20);
+            this.massTextBox.Size = new System.Drawing.Size(76, 22);
             this.massTextBox.TabIndex = 3;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(13, 39);
+            this.label2.Location = new System.Drawing.Point(17, 48);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(35, 13);
+            this.label2.Size = new System.Drawing.Size(45, 17);
             this.label2.TabIndex = 2;
             this.label2.Text = "Mass:";
             // 
             // wingspanTextBox
             // 
-            this.wingspanTextBox.Location = new System.Drawing.Point(88, 62);
+            this.wingspanTextBox.Location = new System.Drawing.Point(117, 76);
+            this.wingspanTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.wingspanTextBox.Name = "wingspanTextBox";
-            this.wingspanTextBox.Size = new System.Drawing.Size(58, 20);
+            this.wingspanTextBox.Size = new System.Drawing.Size(76, 22);
             this.wingspanTextBox.TabIndex = 5;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(13, 65);
+            this.label3.Location = new System.Drawing.Point(17, 80);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(58, 13);
+            this.label3.Size = new System.Drawing.Size(75, 17);
             this.label3.TabIndex = 4;
             this.label3.Text = "Wingspan:";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(13, 91);
+            this.label4.Location = new System.Drawing.Point(17, 112);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(59, 13);
+            this.label4.Size = new System.Drawing.Size(79, 17);
             this.label4.TabIndex = 7;
             this.label4.Text = "Propulsion:";
             // 
             // okButton
             // 
-            this.okButton.Location = new System.Drawing.Point(16, 119);
+            this.okButton.Location = new System.Drawing.Point(21, 146);
+            this.okButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.okButton.Name = "okButton";
-            this.okButton.Size = new System.Drawing.Size(130, 23);
+            this.okButton.Size = new System.Drawing.Size(173, 28);
             this.okButton.TabIndex = 8;
             this.okButton.Text = "OK";
             this.okButton.UseVisualStyleBackColor = true;
@@ -112,16 +120,17 @@
             this.propulsionComboBox.Items.AddRange(new object[] {
             "Jet",
             "Propeller"});
-            this.propulsionComboBox.Location = new System.Drawing.Point(78, 88);
+            this.propulsionComboBox.Location = new System.Drawing.Point(104, 108);
+            this.propulsionComboBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.propulsionComboBox.Name = "propulsionComboBox";
-            this.propulsionComboBox.Size = new System.Drawing.Size(68, 21);
+            this.propulsionComboBox.Size = new System.Drawing.Size(89, 24);
             this.propulsionComboBox.TabIndex = 9;
             // 
             // AirplaneDialog
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(160, 154);
+            this.ClientSize = new System.Drawing.Size(213, 186);
             this.ControlBox = false;
             this.Controls.Add(this.propulsionComboBox);
             this.Controls.Add(this.okButton);
@@ -133,6 +142,7 @@
             this.Controls.Add(this.maxLoadTextBox);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "AirplaneDialog";

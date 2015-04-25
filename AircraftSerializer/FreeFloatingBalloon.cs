@@ -8,6 +8,7 @@ namespace AircraftSerializer
 {
     public enum FreeFloatingBalloonType { HotAir, Gas }
 
+    [Serializable()]
     class FreeFloatingBalloon : Aerostat
     {
         public override int MaxLoad { get; protected set; }

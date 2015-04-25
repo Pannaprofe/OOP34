@@ -8,6 +8,7 @@ namespace AircraftSerializer
 {
     public enum GliderLaunchType { TowLaunched, FootLaunched, Motorized }
 
+    [Serializable()]
     public class Glider : FixedWingAircraft
     {
         public override int MaxLoad { get; protected set; }

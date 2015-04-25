@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace AircraftSerializer
 {
+    [Serializable()]
     public abstract class Aerostat : Aircraft
     {
         public abstract int Gasbags { get; }

@@ -8,6 +8,7 @@ namespace AircraftSerializer
 {
     public enum AerodyneLiftType { Aerodynamic, Thrust }
 
+    [Serializable()]
     public abstract class Aerodyne : Aircraft
     {
         public abstract AerodyneLiftType LiftType { get; }

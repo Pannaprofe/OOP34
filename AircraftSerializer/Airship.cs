@@ -8,6 +8,7 @@ namespace AircraftSerializer
 {
     public enum AirshipType { Rigid, NonRigid }
 
+    [Serializable()]
     class Airship : Aerostat
     {
         public override int MaxLoad { get; protected set; }

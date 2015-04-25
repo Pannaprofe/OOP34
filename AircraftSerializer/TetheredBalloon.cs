@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace AircraftSerializer
 {
+    [Serializable()]
     public class TetheredBalloon : Aerostat
     {
         public override int MaxLoad { get; protected set; }

@@ -8,6 +8,7 @@ namespace AircraftSerializer
 {
     public enum AircraftPropulsionType { Jet, Propeller }
 
+    [Serializable()]
     public abstract class Aircraft : IDialogModifiable
     {
         public abstract int MaxLoad { get; protected set; }

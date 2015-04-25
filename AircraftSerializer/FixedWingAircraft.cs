@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace AircraftSerializer
 {
+    [Serializable()]
     public abstract class FixedWingAircraft : Aerodyne
     {
         public abstract int Wingspan { get; protected set; }
