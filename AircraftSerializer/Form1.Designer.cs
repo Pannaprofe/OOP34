@@ -52,7 +52,7 @@
             this.createGroupBox.Controls.Add(this.createFreeFloatingBalloonButton);
             this.createGroupBox.Controls.Add(this.createAirshipButton);
             this.createGroupBox.Controls.Add(this.createAirplaneButton);
-            this.createGroupBox.Location = new System.Drawing.Point(12, 198);
+            this.createGroupBox.Location = new System.Drawing.Point(12, 278);
             this.createGroupBox.Name = "createGroupBox";
             this.createGroupBox.Size = new System.Drawing.Size(222, 153);
             this.createGroupBox.TabIndex = 1;
@@ -121,7 +121,7 @@
             // 
             // modifyButton
             // 
-            this.modifyButton.Location = new System.Drawing.Point(19, 358);
+            this.modifyButton.Location = new System.Drawing.Point(12, 205);
             this.modifyButton.Name = "modifyButton";
             this.modifyButton.Size = new System.Drawing.Size(100, 30);
             this.modifyButton.TabIndex = 2;
@@ -131,7 +131,7 @@
             // 
             // openButton
             // 
-            this.openButton.Location = new System.Drawing.Point(19, 395);
+            this.openButton.Location = new System.Drawing.Point(13, 242);
             this.openButton.Name = "openButton";
             this.openButton.Size = new System.Drawing.Size(100, 30);
             this.openButton.TabIndex = 3;
@@ -141,7 +141,7 @@
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(126, 395);
+            this.saveButton.Location = new System.Drawing.Point(119, 242);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(99, 30);
             this.saveButton.TabIndex = 4;
@@ -169,7 +169,7 @@
             // 
             // removeButton
             // 
-            this.removeButton.Location = new System.Drawing.Point(126, 359);
+            this.removeButton.Location = new System.Drawing.Point(119, 206);
             this.removeButton.Name = "removeButton";
             this.removeButton.Size = new System.Drawing.Size(99, 30);
             this.removeButton.TabIndex = 7;
@@ -181,7 +181,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(523, 435);
+            this.ClientSize = new System.Drawing.Size(523, 438);
             this.Controls.Add(this.removeButton);
             this.Controls.Add(this.infoLabel);
             this.Controls.Add(this.aircraftListBox);

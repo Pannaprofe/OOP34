@@ -10,6 +10,9 @@ using System.Windows.Forms;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization.Formatters.Soap;
 using System.Xml.Serialization;
+using System.Reflection;
+using System.IO;
+using System.Runtime.InteropServices;
 
 namespace AircraftSerializer
 {
@@ -18,25 +21,45 @@ namespace AircraftSerializer
         public Form1()
         {
             InitializeComponent();
-        }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            //var a = new TetheredBalloon();
-            //MessageBox.Show(a.ToString());
-            //var b = new FreeFloatingBalloon();
-            //MessageBox.Show(b.ToString());
-            //var c = new Airship();
-            //MessageBox.Show(c.ToString());
-            //var d = new Airplane();
-            //MessageBox.Show(d.ToString());
-            //var f = new Glider();
-            //MessageBox.Show(f.ToString());
-            //var g = new Rotorcraft();
-            //MessageBox.Show(g.ToString());
-            var h = new Airship();
-            aircraftListBox.Items.Add(h);
-            infoLabel.Text = h.ToString();
+            var publicKeyFilePaths = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.snk");
+            if (publicKeyFilePaths.Count() < 1)
+            {
+                MessageBox.Show("Could not load plugins: public key file is missing.");
+            }
+            else
+            {
+                var dllPaths = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.dll");
+                foreach (String dllPath in dllPaths)
+                {
+                    var pluginAssembly = Assembly.LoadFrom(dllPath);
+                    if (PluginVerification.Verify(pluginAssembly, publicKeyFilePaths[0]))
+                    {
+                        int buttonCount = 0;
+                        foreach (Type type in pluginAssembly.GetExportedTypes())
+                        {
+                            if (type.GetInterfaces().Contains(typeof(IAircraftSerializerPlugin)))
+                            {
+                                var plugin = (IAircraftSerializerPlugin)type.GetConstructor(Type.EmptyTypes).Invoke(new Object[0]);
+                                buttonCount++;
+
+                                Button newButton = new Button();
+                                newButton.Location = new System.Drawing.Point(7, 114 + buttonCount * 37);
+                                newButton.Name = "create" + plugin.Name + "Button";
+                                newButton.Size = new System.Drawing.Size(206, 30);
+                                newButton.Text = plugin.Name;
+                                newButton.UseVisualStyleBackColor = true;
+                                newButton.Tag = plugin.AircraftType;
+                                newButton.Click += new System.EventHandler(this.dynamicCreateButton_Click);
+
+                                this.Size = new Size(this.Size.Width, this.Size.Height + 37);
+                                createGroupBox.Size = new Size(createGroupBox.Size.Width, createGroupBox.Size.Height + 37);
+                                createGroupBox.Controls.Add(newButton);
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         private void aircraftListBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -144,6 +167,14 @@ namespace AircraftSerializer
                     aircraftListBox.Items.Add(aircraft);
                 }
             }
+        }
+
+        private void dynamicCreateButton_Click(object sender, EventArgs e)
+        {
+            var newAircraft = ((Type)((Button)sender).Tag).GetConstructor(Type.EmptyTypes).Invoke(new Object[0]);
+            aircraftListBox.Items.Add(newAircraft);
+            aircraftListBox.SelectedIndex = aircraftListBox.Items.Count - 1;
+            infoLabel.Text = aircraftListBox.SelectedItem.ToString();
         }
     }
 }

@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AircraftSerializer</RootNamespace>
     <AssemblyName>AircraftSerializer</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -31,7 +32,20 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>ASPlugin.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Runtime.Hosting">
+      <HintPath>..\..\..\..\Documents\Visual Studio 2013\Projects\Managed Wrappers of Activation APIs\Microsoft.Runtime.Hosting\bin\Release\Microsoft.Runtime.Hosting.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Runtime.Hosting.Interop">
+      <HintPath>..\..\..\..\Documents\Visual Studio 2013\Projects\Managed Wrappers of Activation APIs\Microsoft.Runtime.Hosting.Interop\bin\Release\Microsoft.Runtime.Hosting.Interop.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
@@ -50,6 +64,8 @@
     <Compile Include="Aerostat.cs" />
     <Compile Include="Aircraft.cs" />
     <Compile Include="Airplane.cs" />
+    <Compile Include="IAircraftSerializerPlugin.cs" />
+    <Compile Include="PluginVerification.cs" />
     <Compile Include="RotorcraftDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -124,6 +140,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="FreeFloatingBalloonDialog.resx">
       <DependentUpon>FreeFloatingBalloonDialog.cs</DependentUpon>
@@ -131,6 +148,7 @@
     <EmbeddedResource Include="TetheredBalloonDialog.resx">
       <DependentUpon>TetheredBalloonDialog.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="ASPlugin.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
