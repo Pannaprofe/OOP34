@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KitePlugin
 {
-    public class KitePlugin : AircraftSerializer.IAircraftSerializerPlugin
+    public class KitePlugin : AircraftSerializer.IAircraftClassPlugin
     {
         public string Name { get { return "Kite"; } }
         public Type AircraftType { get { return typeof(Kite); } }

@@ -38,9 +38,9 @@ namespace AircraftSerializer
                         int buttonCount = 0;
                         foreach (Type type in pluginAssembly.GetExportedTypes())
                         {
-                            if (type.GetInterfaces().Contains(typeof(IAircraftSerializerPlugin)))
+                            if (type.GetInterfaces().Contains(typeof(IAircraftClassPlugin)))
                             {
-                                var plugin = (IAircraftSerializerPlugin)type.GetConstructor(Type.EmptyTypes).Invoke(new Object[0]);
+                                var plugin = (IAircraftClassPlugin)type.GetConstructor(Type.EmptyTypes).Invoke(new Object[0]);
                                 buttonCount++;
 
                                 Button newButton = new Button();
@@ -60,6 +60,13 @@ namespace AircraftSerializer
                     }
                 }
             }
+            var menu = new MenuStrip();
+            menu.Items.Add(new ToolStripMenuItem("kek"));
+            var menuHeight = menu.Size.Height;
+            this.Size = new Size(this.Size.Width, this.Size.Height + menuHeight);
+            foreach (Control control in this.Controls)
+                control.Location = new Point(control.Location.X, control.Location.Y + menuHeight);
+            this.Controls.Add(menu);
         }
 
         private void aircraftListBox_SelectedIndexChanged(object sender, EventArgs e)

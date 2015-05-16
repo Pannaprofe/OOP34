@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AircraftSerializer
 {
-    public interface IAircraftSerializerPlugin
+    public interface IAircraftClassPlugin
     {
         string Name { get; }
         Type AircraftType { get; }

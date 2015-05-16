@@ -57,7 +57,9 @@
     <Compile Include="Aerostat.cs" />
     <Compile Include="Aircraft.cs" />
     <Compile Include="Airplane.cs" />
-    <Compile Include="IAircraftSerializerPlugin.cs" />
+    <Compile Include="DefaultDataTransformation.cs" />
+    <Compile Include="IAircraftClassPlugin.cs" />
+    <Compile Include="IDataTransformationPlugin.cs" />
     <Compile Include="PluginVerification.cs" />
     <Compile Include="RotorcraftDialog.cs">
       <SubType>Form</SubType>
