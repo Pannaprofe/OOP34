@@ -9,8 +9,6 @@ using System.IO;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Runtime.Hosting;
-using Microsoft.Runtime.Hosting;
-using Microsoft.Runtime.Hosting.Interop;
 
 namespace AircraftSerializer
 {
@@ -19,6 +17,7 @@ namespace AircraftSerializer
         public static bool Verify(Assembly assembly, String publicKeyFilePath)
         {
             //verifying the assembly's strong name signature
+            //requires "Managed Wrappers of Activation APIs"
             /*var host = HostingInteropHelper.GetClrMetaHost<IClrMetaHost>();
             var bufferSize = 100;
             var version = new StringBuilder(bufferSize);

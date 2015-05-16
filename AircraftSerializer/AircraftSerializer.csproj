@@ -39,13 +39,6 @@
     <AssemblyOriginatorKeyFile>ASPlugin.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Runtime.Hosting">
-      <HintPath>..\..\..\..\Documents\Visual Studio 2013\Projects\Managed Wrappers of Activation APIs\Microsoft.Runtime.Hosting\bin\Release\Microsoft.Runtime.Hosting.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Runtime.Hosting.Interop">
-      <HintPath>..\..\..\..\Documents\Visual Studio 2013\Projects\Managed Wrappers of Activation APIs\Microsoft.Runtime.Hosting.Interop\bin\Release\Microsoft.Runtime.Hosting.Interop.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
