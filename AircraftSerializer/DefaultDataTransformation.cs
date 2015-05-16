@@ -9,6 +9,8 @@ namespace AircraftSerializer
 {
     class DefaultDataTransformation : IDataTransformationPlugin
     {
+        public string Name { get { return "Default"; } } 
+
         public void WriteTransformedData(FileStream file, Byte[] data)
         {
             file.Write(data, 0, data.Length);
@@ -20,8 +22,8 @@ namespace AircraftSerializer
             file.Read(data, 0, data.Length);
             return data;
         }
-        
-        public void ConfigureByDialog()
+
+        public void ConfigureByDialog(object sender, EventArgs e)
         {
             ;
         }

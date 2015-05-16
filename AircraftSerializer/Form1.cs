@@ -18,14 +18,18 @@ namespace AircraftSerializer
 {
     public partial class Form1 : Form
     {
+        public IDataTransformationPlugin DataTransformation;
+
         public Form1()
         {
             InitializeComponent();
 
+            DataTransformation = new DefaultDataTransformation();
+
             var publicKeyFilePaths = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.snk");
             if (publicKeyFilePaths.Count() < 1)
             {
-                MessageBox.Show("Could not load plugins: public key file is missing.");
+                MessageBox.Show("Could not load plugins: public key file is missing.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
@@ -36,6 +40,9 @@ namespace AircraftSerializer
                     if (PluginVerification.Verify(pluginAssembly, publicKeyFilePaths[0]))
                     {
                         int buttonCount = 0;
+                        MenuStrip menuStrip = default(MenuStrip);
+                        ToolStripMenuItem settingsMenuItem = default(ToolStripMenuItem);
+
                         foreach (Type type in pluginAssembly.GetExportedTypes())
                         {
                             if (type.GetInterfaces().Contains(typeof(IAircraftClassPlugin)))
@@ -56,17 +63,34 @@ namespace AircraftSerializer
                                 createGroupBox.Size = new Size(createGroupBox.Size.Width, createGroupBox.Size.Height + 37);
                                 createGroupBox.Controls.Add(newButton);
                             }
+
+                            if (type.GetInterfaces().Contains(typeof(IDataTransformationPlugin)))
+                            {
+                                DataTransformation = (IDataTransformationPlugin)type.GetConstructor(Type.EmptyTypes).Invoke(new Object[0]);
+
+                                if (menuStrip == default(MenuStrip))
+                                {
+                                    menuStrip = new MenuStrip();
+                                    settingsMenuItem = new ToolStripMenuItem("Settings");
+                                }
+                                settingsMenuItem.DropDownItems.Add(new ToolStripMenuItem(DataTransformation.Name, null, new EventHandler(DataTransformation.ConfigureByDialog)));
+                            }
+                        }
+
+                        if (menuStrip != default(MenuStrip))
+                        {
+                            menuStrip.Items.Add(settingsMenuItem);
+
+                            var menuHeight = menuStrip.Size.Height;
+                            this.Size = new Size(this.Size.Width, this.Size.Height + menuHeight);
+                            foreach (Control control in this.Controls)
+                                control.Location = new Point(control.Location.X, control.Location.Y + menuHeight);
+
+                            this.Controls.Add(menuStrip);
                         }
                     }
                 }
             }
-            var menu = new MenuStrip();
-            menu.Items.Add(new ToolStripMenuItem("kek"));
-            var menuHeight = menu.Size.Height;
-            this.Size = new Size(this.Size.Width, this.Size.Height + menuHeight);
-            foreach (Control control in this.Controls)
-                control.Location = new Point(control.Location.X, control.Location.Y + menuHeight);
-            this.Controls.Add(menu);
         }
 
         private void aircraftListBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -154,7 +178,12 @@ namespace AircraftSerializer
                 var aircraftArray = aircraftListBox.Items.Cast<Aircraft>().ToArray();
 
                 var file = saveDialog.OpenFile();
-                (new SoapFormatter()).Serialize(file, aircraftArray);
+
+                var serializationStream = new MemoryStream();
+                (new SoapFormatter()).Serialize(serializationStream, aircraftArray);
+                var data = serializationStream.ToArray();
+                DataTransformation.WriteTransformedData((FileStream)file, data);
+
                 file.Close();
             }
         }
@@ -165,7 +194,21 @@ namespace AircraftSerializer
             if (openDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 var file = openDialog.OpenFile();
-                var aircraftArray = (Aircraft[])(new SoapFormatter()).Deserialize(file);
+
+                Byte[] data = default(Byte[]);
+                try
+                {
+                    data = DataTransformation.ReadTransformedData((FileStream)file);
+                }
+                catch
+                {
+                    MessageBox.Show("File decryption failed: \"" + openDialog.FileName + "\" is not a valid AircraftSerializer file or it was made without encryption.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                var deserializationStream = new MemoryStream(data);
+                var aircraftArray = (Aircraft[])(new SoapFormatter()).Deserialize(deserializationStream);
+
                 file.Close();
 
                 aircraftListBox.Items.Clear();

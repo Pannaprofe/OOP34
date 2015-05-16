@@ -9,8 +9,9 @@ namespace AircraftSerializer
 {
     public interface IDataTransformationPlugin
     {
+        string Name { get; }
         void WriteTransformedData(FileStream file, Byte[] data);
         Byte[] ReadTransformedData(FileStream file);
-        void ConfigureByDialog();
+        void ConfigureByDialog(object sender, EventArgs e);
     }
 }

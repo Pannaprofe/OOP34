@@ -6,15 +6,19 @@ using System.Threading.Tasks;
 using System.IO;
 using AircraftSerializer;
 using System.Security.Cryptography;
+using System.Windows.Forms;
 
 namespace EncryptionPlugin
 {
-    public enum DataEncryptionAlgorythm { AES, TripleDES }
+    public enum DataEncryptionAlgorithm { AES, TripleDES }
 
     public class EncryptionPlugin : IDataTransformationPlugin
     {
-        public DataEncryptionAlgorythm EncryptionAlgorythm;
+        public string Name { get { return "Encryption"; } } 
+
+        public DataEncryptionAlgorithm EncryptionAlgorithm;
         private Byte[] _Key, _IV;
+        private bool IV16Bytes;
 
         public Byte[] Key
         {
@@ -46,27 +50,28 @@ namespace EncryptionPlugin
             }
         }
 
-        public EncryptionPlugin(DataEncryptionAlgorythm encryptionAlgorythm)
+        public EncryptionPlugin()
         {
-            this.EncryptionAlgorythm = encryptionAlgorythm;
-
-            this._Key = new Byte[16];
-            this._IV = new Byte[16];
-            var randomizer = new Random();
-            randomizer.NextBytes(this._Key);
-            randomizer.NextBytes(this._IV);
+            this.EncryptionAlgorithm = DataEncryptionAlgorithm.AES;
+            SearchForKeyFile();
         }
 
-        public EncryptionPlugin(DataEncryptionAlgorythm encryptionAlgorythm, Byte[] key, Byte[] iv)
+        public EncryptionPlugin(DataEncryptionAlgorithm encryptionAlgorithm)
         {
-            this.EncryptionAlgorythm = encryptionAlgorythm;
+            this.EncryptionAlgorithm = encryptionAlgorithm;
+            SearchForKeyFile();
+        }
+
+        public EncryptionPlugin(DataEncryptionAlgorithm encryptionAlgorithm, Byte[] key, Byte[] iv)
+        {
+            this.EncryptionAlgorithm = encryptionAlgorithm;
             this.Key = key;
             this.IV = iv;
         }
 
         public void WriteTransformedData(FileStream file, Byte[] data)
         {
-            if (EncryptionAlgorythm == DataEncryptionAlgorythm.AES)
+            if (EncryptionAlgorithm == DataEncryptionAlgorithm.AES)
                 AesWrite(file, data);
             else
                 TripleDesWrite(file, data);
@@ -74,7 +79,7 @@ namespace EncryptionPlugin
 
         public Byte[] ReadTransformedData(FileStream file)
         {
-            if (EncryptionAlgorythm == DataEncryptionAlgorythm.AES)
+            if (EncryptionAlgorithm == DataEncryptionAlgorithm.AES)
                 return AesRead(file);
             else
                 return TripleDesRead(file);
@@ -114,9 +119,72 @@ namespace EncryptionPlugin
             return data;
         }
 
-        public void ConfigureByDialog()
+        public void ConfigureByDialog(object sender, EventArgs e)
         {
-            ;
+            var dialog = new EncryptionSettingsDialog();
+            dialog.CallingObject = this;
+            dialog.Algorithm = this.EncryptionAlgorithm;
+            dialog.IV16Bytes = this.IV16Bytes;
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                this.EncryptionAlgorithm = dialog.Algorithm;
+                this.IV16Bytes = dialog.IV16Bytes;
+            }
+        }
+
+        private void RandomizeKeys()
+        {
+            this._Key = new Byte[16];
+            this._IV = new Byte[16];
+            var randomizer = new Random();
+            randomizer.NextBytes(this._Key);
+            randomizer.NextBytes(this._IV);
+
+            this.IV16Bytes = true;
+        }
+
+        internal bool ReadKeyFile(String filePath)
+        {
+            var keyFileContents = File.ReadAllLines(filePath);
+            if (keyFileContents.Length != 2 || keyFileContents[0].Length < 16 || keyFileContents[1].Length < 8)
+            {
+                MessageBox.Show("Encryption key file is not valid, key has been randomized. \nPlease specify a valid key file before opening/saving a file.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                RandomizeKeys();
+                return true;
+            }
+            else
+            {
+                this._Key = Encoding.Default.GetBytes(keyFileContents[0]).Take(16).ToArray();
+                if (keyFileContents[1].Length < 16)
+                {
+                    this._IV = Encoding.Default.GetBytes(keyFileContents[1]).Take(8).ToArray();
+                    this.IV16Bytes = false;
+                    this.EncryptionAlgorithm = DataEncryptionAlgorithm.TripleDES;
+                    MessageBox.Show("Current IV is 8 bytes long, which is not enough for AES. \nPlease specify a key file with 16-byte IV to use AES.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+                else
+                {
+                    this._IV = Encoding.Default.GetBytes(keyFileContents[1]).Take(16).ToArray();
+                    this.IV16Bytes = true;
+                    return true;
+                }
+            }
+        }
+
+        private bool SearchForKeyFile()
+        {
+            var keyFilePaths = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.epk");
+            if (keyFilePaths.Count() < 1)
+            {
+                MessageBox.Show("Encryption key file not find, key has been randomized. \nPlease specify a valid key file before opening/saving a file.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                RandomizeKeys();
+                return true;
+            }
+            else
+            {
+                return ReadKeyFile(keyFilePaths[0]);
+            }
         }
     }
 }
