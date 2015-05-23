@@ -24,7 +24,7 @@ namespace AircraftSerializer
         {
             InitializeComponent();
 
-            DataTransformation = new DefaultDataTransformation();
+            var transformer = new DataTransformer();
 
             var publicKeyFilePaths = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.snk");
             if (publicKeyFilePaths.Count() < 1)
@@ -47,7 +47,6 @@ namespace AircraftSerializer
                         var buttonX = gButton.Location.X;
                         var gapY = gButton.Location.Y - (ffbButton.Location.Y + ffbButton.Size.Height);
                         var buttonY = gButton.Location.Y + gButton.Size.Height + gapY;
-
 
                         MenuStrip menuStrip = default(MenuStrip);
                         ToolStripMenuItem settingsMenuItem = default(ToolStripMenuItem);
@@ -77,14 +76,16 @@ namespace AircraftSerializer
 
                             if (type.GetInterfaces().Contains(typeof(IDataTransformation)))
                             {
-                                DataTransformation = (IDataTransformation)type.GetConstructor(Type.EmptyTypes).Invoke(new Object[0]);
+                                var transformation = (IDataTransformation)type.GetConstructor(Type.EmptyTypes).Invoke(new Object[0]);
 
                                 if (menuStrip == default(MenuStrip))
                                 {
                                     menuStrip = new MenuStrip();
                                     settingsMenuItem = new ToolStripMenuItem("Settings");
                                 }
-                                settingsMenuItem.DropDownItems.Add(new ToolStripMenuItem(DataTransformation.Name, null, new EventHandler(DataTransformation.ConfigureByDialog)));
+                                settingsMenuItem.DropDownItems.Add(new ToolStripMenuItem(transformation.Name, null, new EventHandler(transformation.ConfigureByDialog)));
+
+                                transformer.AddTransformation(transformation);
                             }
                         }
 
@@ -110,12 +111,14 @@ namespace AircraftSerializer
                                 Type constructedType = type.MakeGenericType(typeof(Byte));
                                 OOP_laba3.SaveOption<Byte> saveOptionPlugin = (OOP_laba3.SaveOption<Byte>)Activator.CreateInstance(constructedType);
 
-                                DataTransformation = new SaveOptionAdapter(saveOptionPlugin);
+                                transformer.AddTransformation(new SaveOptionAdapter(saveOptionPlugin));
                             }
                         }
                     }
                 }
             }
+
+            DataTransformation = transformer;
         }
 
         private void aircraftListBox_SelectedIndexChanged(object sender, EventArgs e)
