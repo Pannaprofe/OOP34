@@ -40,6 +40,15 @@ namespace AircraftSerializer
                     if (PluginVerification.Verify(pluginAssembly, publicKeyFilePaths[0]))
                     {
                         int buttonCount = 0;
+                        var gButton = (Button)Controls.Find("createGliderButton", true)[0];
+                        var ffbButton = (Button)Controls.Find("createTetheredBalloonButton", true)[0];
+                        var buttonHeight = gButton.Size.Height;
+                        var buttonWidth = ffbButton.Location.X + ffbButton.Size.Width - gButton.Location.X;
+                        var buttonX = gButton.Location.X;
+                        var gapY = gButton.Location.Y - (ffbButton.Location.Y + ffbButton.Size.Height);
+                        var buttonY = gButton.Location.Y + gButton.Size.Height + gapY;
+
+
                         MenuStrip menuStrip = default(MenuStrip);
                         ToolStripMenuItem settingsMenuItem = default(ToolStripMenuItem);
 
@@ -51,9 +60,11 @@ namespace AircraftSerializer
                                 buttonCount++;
 
                                 Button newButton = new Button();
-                                newButton.Location = new System.Drawing.Point(7, 114 + buttonCount * 37);
+                                //newButton.Location = new System.Drawing.Point(7, 114 + buttonCount * 37);
+                                newButton.Location = new Point(buttonX, buttonY + (buttonCount - 1) * (buttonHeight + gapY));
                                 newButton.Name = "create" + plugin.Name + "Button";
-                                newButton.Size = new System.Drawing.Size(206, 30);
+                                //newButton.Size = new System.Drawing.Size(206, 30);
+                                newButton.Size = new Size(buttonWidth, buttonHeight);
                                 newButton.Text = plugin.Name;
                                 newButton.UseVisualStyleBackColor = true;
                                 newButton.Tag = plugin.AircraftType;

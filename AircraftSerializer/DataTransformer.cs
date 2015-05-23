@@ -20,22 +20,36 @@ namespace AircraftSerializer
 
         public void WriteTransformedData(FileStream stream, Byte[] data)
         {
-            var tempData = data;
-            var tempMStream = new MemoryStream();
-            foreach (IDataTransformation transformation in dataTransformations)
+            switch (dataTransformations.Count)
             {
-                var tempStream = new FileStream("temp", FileMode.Create);
-                transformation.WriteTransformedData(tempStream, tempData);
-                tempStream.CopyTo(tempMStream);
-                tempStream.Dispose();
-                tempData = tempMStream.ToArray();
-                tempMStream = new MemoryStream();
+                case 0:
+                    ;
+                    break;
+                case 1:
+                    ;
+                    break;
+                default:
+                    var tempData = data;
+                    var tempMStream = new MemoryStream();
+                    foreach (IDataTransformation transformation in dataTransformations)
+                    {
+                        var tempStream = new FileStream("temp", FileMode.Create);
+                        transformation.WriteTransformedData(tempStream, tempData);
+                        tempStream.CopyTo(tempMStream);
+                        tempStream.Dispose();
+                        tempData = tempMStream.ToArray();
+                        tempMStream = new MemoryStream();
+                    }
+                    break;
             }
         }
 
-        public Byte[] ReadTransformedData(FileStream stream);
+        public Byte[] ReadTransformedData(FileStream stream)
+        {
+            return new Byte[74];
+        }
 
-        void ConfigureByDialog(object sender, EventArgs e)
+        public void ConfigureByDialog(object sender, EventArgs e)
         {
             ;
         }
