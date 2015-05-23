@@ -12,7 +12,7 @@ namespace EncryptionPlugin
 {
     public enum DataEncryptionAlgorithm { AES, TripleDES }
 
-    public class EncryptionPlugin : IDataTransformationPlugin
+    public class EncryptionPlugin : IDataTransformation
     {
         public string Name { get { return "Encryption"; } } 
 
@@ -69,51 +69,51 @@ namespace EncryptionPlugin
             this.IV = iv;
         }
 
-        public void WriteTransformedData(FileStream file, Byte[] data)
+        public void WriteTransformedData(FileStream stream, Byte[] data)
         {
             if (EncryptionAlgorithm == DataEncryptionAlgorithm.AES)
-                AesWrite(file, data);
+                AesWrite(stream, data);
             else
-                TripleDesWrite(file, data);
+                TripleDesWrite(stream, data);
         }
 
-        public Byte[] ReadTransformedData(FileStream file)
+        public Byte[] ReadTransformedData(FileStream stream)
         {
             if (EncryptionAlgorithm == DataEncryptionAlgorithm.AES)
-                return AesRead(file);
+                return AesRead(stream);
             else
-                return TripleDesRead(file);
+                return TripleDesRead(stream);
         }
 
-        private void AesWrite(FileStream file, Byte[] data)
+        private void AesWrite(Stream stream, Byte[] data)
         {
-            var crStream = new CryptoStream(file, (new AesManaged()).CreateEncryptor(_Key, _IV), CryptoStreamMode.Write);
+            var crStream = new CryptoStream(stream, (new AesManaged()).CreateEncryptor(_Key, _IV), CryptoStreamMode.Write);
             crStream.Write(data, 0, data.Length);
             crStream.Flush();
             crStream.Close();
         }
 
-        private void TripleDesWrite(FileStream file, Byte[] data)
+        private void TripleDesWrite(Stream stream, Byte[] data)
         {
-            var crStream = new CryptoStream(file, (new TripleDESCryptoServiceProvider()).CreateEncryptor(_Key, _IV.Take(8).ToArray()), CryptoStreamMode.Write);
+            var crStream = new CryptoStream(stream, (new TripleDESCryptoServiceProvider()).CreateEncryptor(_Key, _IV.Take(8).ToArray()), CryptoStreamMode.Write);
             crStream.Write(data, 0, data.Length);
             crStream.Flush();
             crStream.Close();
         }
 
-        private Byte[] AesRead(FileStream file)
+        private Byte[] AesRead(Stream stream)
         {
-            var crStream = new CryptoStream(file, (new AesManaged()).CreateDecryptor(_Key, _IV), CryptoStreamMode.Read);
-            var data = new Byte[file.Length];
+            var crStream = new CryptoStream(stream, (new AesManaged()).CreateDecryptor(_Key, _IV), CryptoStreamMode.Read);
+            var data = new Byte[stream.Length];
             crStream.Read(data, 0, data.Length);
             crStream.Close();
             return data;
         }
 
-        private Byte[] TripleDesRead(FileStream file)
+        private Byte[] TripleDesRead(Stream stream)
         {
-            var crStream = new CryptoStream(file, (new TripleDESCryptoServiceProvider()).CreateDecryptor(_Key, _IV.Take(8).ToArray()), CryptoStreamMode.Read);
-            var data = new Byte[file.Length];
+            var crStream = new CryptoStream(stream, (new TripleDESCryptoServiceProvider()).CreateDecryptor(_Key, _IV.Take(8).ToArray()), CryptoStreamMode.Read);
+            var data = new Byte[stream.Length];
             crStream.Read(data, 0, data.Length);
             crStream.Close();
             return data;
@@ -177,7 +177,7 @@ namespace EncryptionPlugin
             var keyFilePaths = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.epk");
             if (keyFilePaths.Count() < 1)
             {
-                MessageBox.Show("Encryption key file not find, key has been randomized. \nPlease specify a valid key file before opening/saving a file.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Encryption key file not found, key has been randomized. \nPlease specify a valid key file before opening/saving a file.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 RandomizeKeys();
                 return true;
             }

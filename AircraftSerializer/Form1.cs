@@ -18,7 +18,7 @@ namespace AircraftSerializer
 {
     public partial class Form1 : Form
     {
-        public IDataTransformationPlugin DataTransformation;
+        public IDataTransformation DataTransformation;
 
         public Form1()
         {
@@ -64,9 +64,9 @@ namespace AircraftSerializer
                                 createGroupBox.Controls.Add(newButton);
                             }
 
-                            if (type.GetInterfaces().Contains(typeof(IDataTransformationPlugin)))
+                            if (type.GetInterfaces().Contains(typeof(IDataTransformation)))
                             {
-                                DataTransformation = (IDataTransformationPlugin)type.GetConstructor(Type.EmptyTypes).Invoke(new Object[0]);
+                                DataTransformation = (IDataTransformation)type.GetConstructor(Type.EmptyTypes).Invoke(new Object[0]);
 
                                 if (menuStrip == default(MenuStrip))
                                 {
@@ -87,6 +87,20 @@ namespace AircraftSerializer
                                 control.Location = new Point(control.Location.X, control.Location.Y + menuHeight);
 
                             this.Controls.Add(menuStrip);
+                        }
+                    }
+                    else
+                    {
+                        foreach (Type type in pluginAssembly.GetExportedTypes())
+                        {
+                            if (Array.Exists(type.GetInterfaces(), iface => iface.GUID == typeof(OOP_laba3.SaveOption<>).GUID))
+                            {
+                                //create an instance of generic type with Byte as generic type parameter
+                                Type constructedType = type.MakeGenericType(typeof(Byte));
+                                OOP_laba3.SaveOption<Byte> saveOptionPlugin = (OOP_laba3.SaveOption<Byte>)Activator.CreateInstance(constructedType);
+
+                                DataTransformation = new SaveOptionAdapter(saveOptionPlugin);
+                            }
                         }
                     }
                 }

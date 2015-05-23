@@ -7,11 +7,11 @@ using System.IO;
 
 namespace AircraftSerializer
 {
-    public interface IDataTransformationPlugin
+    public interface IDataTransformation
     {
         string Name { get; }
-        void WriteTransformedData(FileStream file, Byte[] data);
-        Byte[] ReadTransformedData(FileStream file);
+        void WriteTransformedData(FileStream stream, Byte[] data);
+        Byte[] ReadTransformedData(FileStream stream);
         void ConfigureByDialog(object sender, EventArgs e);
     }
 }

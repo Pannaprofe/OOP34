@@ -52,18 +52,21 @@
             this.createGroupBox.Controls.Add(this.createFreeFloatingBalloonButton);
             this.createGroupBox.Controls.Add(this.createAirshipButton);
             this.createGroupBox.Controls.Add(this.createAirplaneButton);
-            this.createGroupBox.Location = new System.Drawing.Point(12, 278);
+            this.createGroupBox.Location = new System.Drawing.Point(9, 226);
+            this.createGroupBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.createGroupBox.Name = "createGroupBox";
-            this.createGroupBox.Size = new System.Drawing.Size(222, 153);
+            this.createGroupBox.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.createGroupBox.Size = new System.Drawing.Size(166, 125);
             this.createGroupBox.TabIndex = 1;
             this.createGroupBox.TabStop = false;
             this.createGroupBox.Text = "Create";
             // 
             // createRotorcraftButton
             // 
-            this.createRotorcraftButton.Location = new System.Drawing.Point(113, 114);
+            this.createRotorcraftButton.Location = new System.Drawing.Point(85, 93);
+            this.createRotorcraftButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.createRotorcraftButton.Name = "createRotorcraftButton";
-            this.createRotorcraftButton.Size = new System.Drawing.Size(100, 30);
+            this.createRotorcraftButton.Size = new System.Drawing.Size(75, 24);
             this.createRotorcraftButton.TabIndex = 5;
             this.createRotorcraftButton.Text = "Rotorcraft";
             this.createRotorcraftButton.UseVisualStyleBackColor = true;
@@ -71,9 +74,10 @@
             // 
             // createGliderButton
             // 
-            this.createGliderButton.Location = new System.Drawing.Point(7, 114);
+            this.createGliderButton.Location = new System.Drawing.Point(5, 93);
+            this.createGliderButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.createGliderButton.Name = "createGliderButton";
-            this.createGliderButton.Size = new System.Drawing.Size(100, 30);
+            this.createGliderButton.Size = new System.Drawing.Size(75, 24);
             this.createGliderButton.TabIndex = 4;
             this.createGliderButton.Text = "Glider";
             this.createGliderButton.UseVisualStyleBackColor = true;
@@ -81,9 +85,10 @@
             // 
             // createTetheredBalloonButton
             // 
-            this.createTetheredBalloonButton.Location = new System.Drawing.Point(113, 58);
+            this.createTetheredBalloonButton.Location = new System.Drawing.Point(85, 47);
+            this.createTetheredBalloonButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.createTetheredBalloonButton.Name = "createTetheredBalloonButton";
-            this.createTetheredBalloonButton.Size = new System.Drawing.Size(100, 50);
+            this.createTetheredBalloonButton.Size = new System.Drawing.Size(75, 41);
             this.createTetheredBalloonButton.TabIndex = 3;
             this.createTetheredBalloonButton.Text = "Tethered balloon";
             this.createTetheredBalloonButton.UseVisualStyleBackColor = true;
@@ -91,9 +96,10 @@
             // 
             // createFreeFloatingBalloonButton
             // 
-            this.createFreeFloatingBalloonButton.Location = new System.Drawing.Point(7, 58);
+            this.createFreeFloatingBalloonButton.Location = new System.Drawing.Point(5, 47);
+            this.createFreeFloatingBalloonButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.createFreeFloatingBalloonButton.Name = "createFreeFloatingBalloonButton";
-            this.createFreeFloatingBalloonButton.Size = new System.Drawing.Size(100, 50);
+            this.createFreeFloatingBalloonButton.Size = new System.Drawing.Size(75, 41);
             this.createFreeFloatingBalloonButton.TabIndex = 2;
             this.createFreeFloatingBalloonButton.Text = "Free-floating balloon";
             this.createFreeFloatingBalloonButton.UseVisualStyleBackColor = true;
@@ -101,9 +107,10 @@
             // 
             // createAirshipButton
             // 
-            this.createAirshipButton.Location = new System.Drawing.Point(113, 22);
+            this.createAirshipButton.Location = new System.Drawing.Point(85, 18);
+            this.createAirshipButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.createAirshipButton.Name = "createAirshipButton";
-            this.createAirshipButton.Size = new System.Drawing.Size(100, 30);
+            this.createAirshipButton.Size = new System.Drawing.Size(75, 24);
             this.createAirshipButton.TabIndex = 1;
             this.createAirshipButton.Text = "Airship";
             this.createAirshipButton.UseVisualStyleBackColor = true;
@@ -111,9 +118,10 @@
             // 
             // createAirplaneButton
             // 
-            this.createAirplaneButton.Location = new System.Drawing.Point(7, 22);
+            this.createAirplaneButton.Location = new System.Drawing.Point(5, 18);
+            this.createAirplaneButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.createAirplaneButton.Name = "createAirplaneButton";
-            this.createAirplaneButton.Size = new System.Drawing.Size(100, 30);
+            this.createAirplaneButton.Size = new System.Drawing.Size(75, 24);
             this.createAirplaneButton.TabIndex = 0;
             this.createAirplaneButton.Text = "Airplane";
             this.createAirplaneButton.UseVisualStyleBackColor = true;
@@ -121,9 +129,10 @@
             // 
             // modifyButton
             // 
-            this.modifyButton.Location = new System.Drawing.Point(12, 205);
+            this.modifyButton.Location = new System.Drawing.Point(9, 167);
+            this.modifyButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.modifyButton.Name = "modifyButton";
-            this.modifyButton.Size = new System.Drawing.Size(100, 30);
+            this.modifyButton.Size = new System.Drawing.Size(75, 24);
             this.modifyButton.TabIndex = 2;
             this.modifyButton.Text = "Modify";
             this.modifyButton.UseVisualStyleBackColor = true;
@@ -131,9 +140,10 @@
             // 
             // openButton
             // 
-            this.openButton.Location = new System.Drawing.Point(13, 242);
+            this.openButton.Location = new System.Drawing.Point(10, 197);
+            this.openButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.openButton.Name = "openButton";
-            this.openButton.Size = new System.Drawing.Size(100, 30);
+            this.openButton.Size = new System.Drawing.Size(75, 24);
             this.openButton.TabIndex = 3;
             this.openButton.Text = "Open";
             this.openButton.UseVisualStyleBackColor = true;
@@ -141,9 +151,10 @@
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(119, 242);
+            this.saveButton.Location = new System.Drawing.Point(89, 197);
+            this.saveButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(99, 30);
+            this.saveButton.Size = new System.Drawing.Size(74, 24);
             this.saveButton.TabIndex = 4;
             this.saveButton.Text = "Save";
             this.saveButton.UseVisualStyleBackColor = true;
@@ -152,26 +163,28 @@
             // aircraftListBox
             // 
             this.aircraftListBox.FormattingEnabled = true;
-            this.aircraftListBox.ItemHeight = 16;
-            this.aircraftListBox.Location = new System.Drawing.Point(12, 12);
+            this.aircraftListBox.Location = new System.Drawing.Point(9, 10);
+            this.aircraftListBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.aircraftListBox.Name = "aircraftListBox";
-            this.aircraftListBox.Size = new System.Drawing.Size(500, 180);
+            this.aircraftListBox.Size = new System.Drawing.Size(376, 147);
             this.aircraftListBox.TabIndex = 5;
             this.aircraftListBox.SelectedIndexChanged += new System.EventHandler(this.aircraftListBox_SelectedIndexChanged);
             // 
             // infoLabel
             // 
             this.infoLabel.AutoEllipsis = true;
-            this.infoLabel.Location = new System.Drawing.Point(240, 205);
+            this.infoLabel.Location = new System.Drawing.Point(180, 167);
+            this.infoLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.infoLabel.Name = "infoLabel";
-            this.infoLabel.Size = new System.Drawing.Size(272, 220);
+            this.infoLabel.Size = new System.Drawing.Size(204, 184);
             this.infoLabel.TabIndex = 6;
             // 
             // removeButton
             // 
-            this.removeButton.Location = new System.Drawing.Point(119, 206);
+            this.removeButton.Location = new System.Drawing.Point(89, 167);
+            this.removeButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.removeButton.Name = "removeButton";
-            this.removeButton.Size = new System.Drawing.Size(99, 30);
+            this.removeButton.Size = new System.Drawing.Size(74, 24);
             this.removeButton.TabIndex = 7;
             this.removeButton.Text = "Remove";
             this.removeButton.UseVisualStyleBackColor = true;
@@ -179,9 +192,9 @@
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(523, 438);
+            this.ClientSize = new System.Drawing.Size(392, 358);
             this.Controls.Add(this.removeButton);
             this.Controls.Add(this.infoLabel);
             this.Controls.Add(this.aircraftListBox);
@@ -190,7 +203,6 @@
             this.Controls.Add(this.modifyButton);
             this.Controls.Add(this.createGroupBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Form1";

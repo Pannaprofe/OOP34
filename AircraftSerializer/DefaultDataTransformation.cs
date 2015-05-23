@@ -7,19 +7,19 @@ using System.IO;
 
 namespace AircraftSerializer
 {
-    class DefaultDataTransformation : IDataTransformationPlugin
+    class DefaultDataTransformation : IDataTransformation
     {
-        public string Name { get { return "Default"; } } 
+        public string Name { get { return "Default"; } }
 
-        public void WriteTransformedData(FileStream file, Byte[] data)
+        public void WriteTransformedData(FileStream stream, Byte[] data)
         {
-            file.Write(data, 0, data.Length);
+            stream.Write(data, 0, data.Length);
         }
 
-        public Byte[] ReadTransformedData(FileStream file)
+        public Byte[] ReadTransformedData(FileStream stream)
         {
-            var data = new Byte[file.Length];
-            file.Read(data, 0, data.Length);
+            var data = new Byte[stream.Length];
+            stream.Read(data, 0, data.Length);
             return data;
         }
 
