@@ -24,6 +24,20 @@ namespace AircraftSerializer
         {
             InitializeComponent();
 
+            //parameters for custom buttons
+            int buttonCount = 0;
+            var gButton = (Button)Controls.Find("createGliderButton", true)[0];
+            var ffbButton = (Button)Controls.Find("createTetheredBalloonButton", true)[0];
+            var buttonHeight = gButton.Size.Height;
+            var buttonWidth = ffbButton.Location.X + ffbButton.Size.Width - gButton.Location.X;
+            var buttonX = gButton.Location.X;
+            var gapY = gButton.Location.Y - (ffbButton.Location.Y + ffbButton.Size.Height);
+            var buttonY = gButton.Location.Y + gButton.Size.Height + gapY;
+
+            //menu for plugin configuration
+            MenuStrip menuStrip = default(MenuStrip);
+            ToolStripMenuItem settingsMenuItem = default(ToolStripMenuItem);
+
             var transformer = new DataTransformer();
 
             var publicKeyFilePaths = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.snk");
@@ -39,17 +53,7 @@ namespace AircraftSerializer
                     var pluginAssembly = Assembly.LoadFrom(dllPath);
                     if (PluginVerification.Verify(pluginAssembly, publicKeyFilePaths[0]))
                     {
-                        int buttonCount = 0;
-                        var gButton = (Button)Controls.Find("createGliderButton", true)[0];
-                        var ffbButton = (Button)Controls.Find("createTetheredBalloonButton", true)[0];
-                        var buttonHeight = gButton.Size.Height;
-                        var buttonWidth = ffbButton.Location.X + ffbButton.Size.Width - gButton.Location.X;
-                        var buttonX = gButton.Location.X;
-                        var gapY = gButton.Location.Y - (ffbButton.Location.Y + ffbButton.Size.Height);
-                        var buttonY = gButton.Location.Y + gButton.Size.Height + gapY;
-
-                        MenuStrip menuStrip = default(MenuStrip);
-                        ToolStripMenuItem settingsMenuItem = default(ToolStripMenuItem);
+                        //signed assemblies
 
                         foreach (Type type in pluginAssembly.GetExportedTypes())
                         {
@@ -77,45 +81,57 @@ namespace AircraftSerializer
                             if (type.GetInterfaces().Contains(typeof(IDataTransformation)))
                             {
                                 var transformation = (IDataTransformation)type.GetConstructor(Type.EmptyTypes).Invoke(new Object[0]);
+                                transformer.AddTransformation(transformation);
 
+                                //update menu
                                 if (menuStrip == default(MenuStrip))
                                 {
                                     menuStrip = new MenuStrip();
                                     settingsMenuItem = new ToolStripMenuItem("Settings");
                                 }
                                 settingsMenuItem.DropDownItems.Add(new ToolStripMenuItem(transformation.Name, null, new EventHandler(transformation.ConfigureByDialog)));
-
-                                transformer.AddTransformation(transformation);
                             }
-                        }
-
-                        if (menuStrip != default(MenuStrip))
-                        {
-                            menuStrip.Items.Add(settingsMenuItem);
-
-                            var menuHeight = menuStrip.Size.Height;
-                            this.Size = new Size(this.Size.Width, this.Size.Height + menuHeight);
-                            foreach (Control control in this.Controls)
-                                control.Location = new Point(control.Location.X, control.Location.Y + menuHeight);
-
-                            this.Controls.Add(menuStrip);
                         }
                     }
                     else
                     {
+                        //unsigned assemblies
+
                         foreach (Type type in pluginAssembly.GetExportedTypes())
                         {
-                            if (Array.Exists(type.GetInterfaces(), iface => iface.GUID == typeof(OOP_laba3.SaveOption<>).GUID))
+                            //SaveOption plugins
+                            var saveOptionGUID = typeof(OOP_laba3.SaveOption<>).GUID;
+                            if (type.BaseType != null && type.BaseType.GUID == saveOptionGUID)
                             {
                                 //create an instance of generic type with Byte as generic type parameter
                                 Type constructedType = type.MakeGenericType(typeof(Byte));
                                 OOP_laba3.SaveOption<Byte> saveOptionPlugin = (OOP_laba3.SaveOption<Byte>)Activator.CreateInstance(constructedType);
+                                var adaptedPlugin = new SaveOptionAdapter(saveOptionPlugin);
+                                transformer.AddTransformation(adaptedPlugin);
 
-                                transformer.AddTransformation(new SaveOptionAdapter(saveOptionPlugin));
+                                //update menu
+                                if (menuStrip == default(MenuStrip))
+                                {
+                                    menuStrip = new MenuStrip();
+                                    settingsMenuItem = new ToolStripMenuItem("Settings");
+                                }
+                                settingsMenuItem.DropDownItems.Add(new ToolStripMenuItem(adaptedPlugin.Name, null, new EventHandler(adaptedPlugin.ConfigureByDialog)));
                             }
                         }
                     }
                 }
+            }
+
+            if (menuStrip != default(MenuStrip))
+            {
+                menuStrip.Items.Add(settingsMenuItem);
+
+                var menuHeight = menuStrip.Size.Height;
+                this.Size = new Size(this.Size.Width, this.Size.Height + menuHeight);
+                foreach (Control control in this.Controls)
+                    control.Location = new Point(control.Location.X, control.Location.Y + menuHeight);
+
+                this.Controls.Add(menuStrip);
             }
 
             DataTransformation = transformer;

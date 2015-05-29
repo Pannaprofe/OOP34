@@ -58,7 +58,7 @@ namespace AircraftSerializer
 
         public override string ToString()
         {
-            return String.Format("Tethered Balloon \nMax load: {0} \nMass: {1} \nGasbags: {2} \nVolume: {3} \nType: {4} \nPropulsion type: {5}", MaxLoad, Mass, Gasbags, Volume, Type, PropulsionType);
+            return String.Format("Airship \nMax load: {0} \nMass: {1} \nGasbags: {2} \nVolume: {3} \nType: {4} \nPropulsion type: {5}", MaxLoad, Mass, Gasbags, Volume, Type, PropulsionType);
         }
     }
 }

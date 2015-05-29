@@ -9,6 +9,10 @@ namespace AircraftSerializer
 {
     class DefaultDataTransformation : IDataTransformation
     {
+        private static readonly Lazy<DefaultDataTransformation> lazy = new Lazy<DefaultDataTransformation>(() => new DefaultDataTransformation());
+        public static DefaultDataTransformation Instance { get { return lazy.Value; } }
+        private DefaultDataTransformation() { }
+
         public string Name { get { return "Default"; } }
 
         public void WriteTransformedData(FileStream stream, Byte[] data)

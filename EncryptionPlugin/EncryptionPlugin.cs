@@ -103,6 +103,7 @@ namespace EncryptionPlugin
 
         private Byte[] AesRead(Stream stream)
         {
+            stream.Seek(0, SeekOrigin.Begin);
             var crStream = new CryptoStream(stream, (new AesManaged()).CreateDecryptor(_Key, _IV), CryptoStreamMode.Read);
             var data = new Byte[stream.Length];
             crStream.Read(data, 0, data.Length);

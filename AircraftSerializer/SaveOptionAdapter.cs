@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Windows.Forms;
 
 namespace AircraftSerializer
 {
@@ -38,7 +39,7 @@ namespace AircraftSerializer
 
         public void ConfigureByDialog(object sender, EventArgs e)
         {
-            ;
+            MessageBox.Show("No configuration available for SaveOption-compliant plugin \"" + adaptee.Name + "\"", "Plugin configuration", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 

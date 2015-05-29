@@ -28,7 +28,7 @@ namespace AircraftSerializer
             switch (dataTransformations.Count)
             {
                 case 0:
-                    (new DefaultDataTransformation()).WriteTransformedData(stream, data);
+                    DefaultDataTransformation.Instance.WriteTransformedData(stream, data);
                     break;
 
                 case 1:
@@ -42,11 +42,21 @@ namespace AircraftSerializer
                     {
                         var tempStream = new FileStream("temp", FileMode.Create);
                         transformation.WriteTransformedData(tempStream, tempData);
-                        tempStream.CopyTo(tempMStream);
-                        tempStream.Dispose();
+                        try
+                        {
+                            tempStream.CopyTo(tempMStream);
+                        }
+                        catch
+                        {
+                            tempStream = new FileStream("temp", FileMode.Open);
+                            tempStream.CopyTo(tempMStream);
+                        }
+                        tempStream.Close();
                         tempData = tempMStream.ToArray();
                         tempMStream = new MemoryStream();
                     }
+
+                    DefaultDataTransformation.Instance.WriteTransformedData(stream, tempData);
                     break;
             }
         }
@@ -58,7 +68,7 @@ namespace AircraftSerializer
             switch (dataTransformations.Count)
             {
                 case 0:
-                    data = (new DefaultDataTransformation()).ReadTransformedData(stream);
+                    data = DefaultDataTransformation.Instance.ReadTransformedData(stream);
                     break;
 
                 case 1:
@@ -69,12 +79,13 @@ namespace AircraftSerializer
                     var tempMStream = new MemoryStream();
                     stream.CopyTo(tempMStream);
 
-                    for (int i = dataTransformations.Count - 1; i >= 0; i++)
+                    for (int i = dataTransformations.Count - 1; i >= 0; i--)
                     {
                         var tempStream = new FileStream("temp", FileMode.Create);
+                        tempMStream.Seek(0, SeekOrigin.Begin);
                         tempMStream.CopyTo(tempStream);
                         data = dataTransformations[i].ReadTransformedData(tempStream);
-                        tempStream.Dispose();
+                        tempStream.Close();
                         tempMStream = new MemoryStream(data);
                     }
                     break;

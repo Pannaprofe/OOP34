@@ -67,8 +67,8 @@ namespace AircraftSerializer
             process.StandardInput.WriteLine("\"" + snPaths.Last() + "\"" + " -tp " + "\"" + publicKeyFilePath + "\"");
             process.StandardInput.Close();
             var convertedOutput = (new StreamReader(process.StandardOutput.BaseStream, true)).ReadToEnd();
-            var publicKeyToken = convertedOutput.Substring(convertedOutput.LastIndexOf(": ") + 2);
-            //var publicKeyToken = convertedOutput.Substring(convertedOutput.LastIndexOf("is ") + 3);
+            //var publicKeyToken = convertedOutput.Substring(convertedOutput.LastIndexOf(": ") + 2);
+            var publicKeyToken = convertedOutput.Substring(convertedOutput.LastIndexOf("is ") + 3);
             publicKeyToken = publicKeyToken.Substring(0, publicKeyToken.IndexOf(Environment.NewLine));
 
             var pluginAssemblyPublicKeyToken = assembly.FullName.Substring(assembly.FullName.IndexOf("PublicKeyToken=") + 15);
