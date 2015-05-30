@@ -38,6 +38,7 @@ namespace AircraftSerializer
             MenuStrip menuStrip = default(MenuStrip);
             ToolStripMenuItem settingsMenuItem = default(ToolStripMenuItem);
 
+            //chain-of-command for transformations
             var transformer = new DataTransformer();
 
             var publicKeyFilePaths = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.snk");
@@ -78,6 +79,7 @@ namespace AircraftSerializer
                                 createGroupBox.Controls.Add(newButton);
                             }
 
+                            //data transformation plugins
                             if (type.GetInterfaces().Contains(typeof(IDataTransformation)))
                             {
                                 var transformation = (IDataTransformation)type.GetConstructor(Type.EmptyTypes).Invoke(new Object[0]);
